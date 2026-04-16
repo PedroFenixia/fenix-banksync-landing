@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BankSync - Reconciliacion bancaria automatica | Fenix IA Solutions</title>
+    <meta name="description" content="BankSync conecta tus bancos con tu ERP automaticamente via PSD2. Sin descargas manuales, sin errores, sin duplicados.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg: #0c0a09; --bg-card: #1c1917; --bg-card-hover: #292524;
+            --accent: #f59e0b; --accent-light: #fbbf24; --accent-dark: #d97706;
+            --text: #fafaf9; --text-muted: #a8a29e; --text-dim: #78716c;
+            --border: #292524;
+        }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; overflow-x: hidden; }
+        a { color: var(--accent); text-decoration: none; }
+
+        /* ── Utilities ── */
+        .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+        .accent { color: var(--accent); }
+        .muted { color: var(--text-muted); }
+        .dim { color: var(--text-dim); }
+        .text-center { text-align: center; }
+
+        /* ── Hero / Narrative Opening ── */
+        .hero {
+            min-height: 100vh; display: flex; align-items: center; justify-content: center;
+            padding: 80px 24px; position: relative;
+        }
+        .hero::before {
+            content: ''; position: absolute; inset: 0;
+            background: radial-gradient(ellipse at 50% 20%, rgba(245,158,11,0.08) 0%, transparent 60%);
+            pointer-events: none;
+        }
+        .hero-inner { max-width: 760px; position: relative; z-index: 1; }
+        .hero-label {
+            display: inline-block; font-size: 13px; font-weight: 600; letter-spacing: 2px;
+            text-transform: uppercase; color: var(--accent); margin-bottom: 32px;
+            border: 1px solid rgba(245,158,11,0.3); padding: 6px 16px; border-radius: 20px;
+        }
+        .hero-narrative {
+            font-size: clamp(1.1rem, 2.5vw, 1.35rem); font-weight: 300; color: var(--text-muted);
+            line-height: 1.9; margin-bottom: 40px;
+        }
+        .hero-narrative em { font-style: italic; color: var(--text); font-weight: 400; }
+        .hero-narrative strong { color: var(--accent); font-weight: 600; }
+        .hero h1 {
+            font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 800; line-height: 1.2;
+            margin-bottom: 20px; letter-spacing: -1px;
+        }
+        .hero h1 span { display: block; color: var(--accent); }
+
+        /* ── Section base ── */
+        section { padding: 100px 24px; }
+        section h2 {
+            font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 700; margin-bottom: 16px;
+            letter-spacing: -0.5px;
+        }
+        section .subtitle { font-size: 1.1rem; color: var(--text-muted); margin-bottom: 48px; max-width: 600px; }
+        .section-divider {
+            width: 60px; height: 3px; background: var(--accent); border-radius: 2px;
+            margin: 0 auto 48px;
+        }
+
+        /* ── Pain Points ── */
+        .pain-section { background: linear-gradient(180deg, var(--bg) 0%, #0f0d0c 100%); }
+        .pain-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; margin-top: 40px; }
+        .pain-card {
+            background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;
+            padding: 32px 28px; transition: border-color 0.3s;
+        }
+        .pain-card:hover { border-color: rgba(245,158,11,0.3); }
+        .pain-icon { font-size: 28px; margin-bottom: 16px; display: block; }
+        .pain-card h3 { font-size: 1.05rem; font-weight: 600; margin-bottom: 10px; }
+        .pain-card p { font-size: 0.92rem; color: var(--text-muted); line-height: 1.65; }
+
+        /* ── Transition ── */
+        .transition-section {
+            text-align: center; padding: 80px 24px;
+            background: radial-gradient(ellipse at center, rgba(245,158,11,0.05) 0%, transparent 70%);
+        }
+        .transition-section p {
+            font-size: clamp(1.3rem, 3vw, 1.8rem); font-weight: 300; color: var(--text-muted);
+            max-width: 640px; margin: 0 auto; line-height: 1.8;
+        }
+        .transition-section p strong { color: var(--text); font-weight: 600; }
+
+        /* ── Architecture ── */
+        .arch-section { text-align: center; }
+        .arch-diagram {
+            display: flex; align-items: center; justify-content: center; gap: 0;
+            flex-wrap: wrap; margin: 48px auto; max-width: 700px;
+        }
+        .arch-node {
+            background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;
+            padding: 20px 28px; text-align: center; min-width: 130px;
+        }
+        .arch-node.highlight { border-color: var(--accent); background: rgba(245,158,11,0.08); }
+        .arch-node .node-icon { font-size: 24px; display: block; margin-bottom: 8px; }
+        .arch-node .node-label { font-size: 0.85rem; font-weight: 600; }
+        .arch-node .node-sub { font-size: 0.72rem; color: var(--text-dim); margin-top: 4px; }
+        .arch-arrow {
+            font-size: 22px; color: var(--accent); padding: 0 12px; flex-shrink: 0;
+        }
+        @media (max-width: 600px) {
+            .arch-diagram { flex-direction: column; gap: 0; }
+            .arch-arrow { transform: rotate(90deg); padding: 8px 0; }
+        }
+
+        /* ── Features ── */
+        .features-list { display: grid; gap: 20px; margin-top: 40px; }
+        .feature-row {
+            display: flex; gap: 20px; align-items: flex-start;
+            background: var(--bg-card); border-radius: 12px; padding: 28px;
+            border: 1px solid var(--border); transition: border-color 0.3s;
+        }
+        .feature-row:hover { border-color: rgba(245,158,11,0.3); }
+        .feature-num {
+            font-size: 2rem; font-weight: 800; color: var(--accent); opacity: 0.5;
+            line-height: 1; flex-shrink: 0; width: 48px;
+        }
+        .feature-row h3 { font-size: 1.05rem; font-weight: 600; margin-bottom: 6px; }
+        .feature-row p { font-size: 0.9rem; color: var(--text-muted); }
+
+        /* ── Stats ── */
+        .stats-section {
+            background: linear-gradient(135deg, rgba(245,158,11,0.06) 0%, transparent 50%);
+        }
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 32px; text-align: center; margin-top: 48px;
+        }
+        .stat-item .stat-number {
+            font-size: clamp(2.2rem, 5vw, 3rem); font-weight: 800; color: var(--accent);
+            line-height: 1;
+        }
+        .stat-item .stat-label { font-size: 0.88rem; color: var(--text-muted); margin-top: 8px; }
+
+        /* ── Testimonials ── */
+        .testimonials-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-top: 40px; }
+        .testimonial {
+            background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;
+            padding: 32px; position: relative;
+        }
+        .testimonial::before {
+            content: '\201C'; position: absolute; top: 16px; left: 24px;
+            font-size: 48px; color: var(--accent); opacity: 0.3; line-height: 1;
+        }
+        .testimonial blockquote {
+            font-size: 0.95rem; color: var(--text-muted); line-height: 1.7;
+            margin-bottom: 20px; padding-top: 16px;
+        }
+        .testimonial .author { font-size: 0.85rem; font-weight: 600; }
+        .testimonial .role { font-size: 0.78rem; color: var(--text-dim); }
+
+        /* ── CTA ── */
+        .cta-section {
+            text-align: center; padding: 100px 24px;
+            background: radial-gradient(ellipse at 50% 80%, rgba(245,158,11,0.1) 0%, transparent 60%);
+        }
+        .cta-section h2 { margin-bottom: 16px; }
+        .cta-section p { color: var(--text-muted); margin-bottom: 36px; font-size: 1.05rem; }
+        .btn-primary {
+            display: inline-block; background: var(--accent); color: #0c0a09; font-weight: 700;
+            font-size: 1rem; padding: 16px 40px; border-radius: 8px; border: none; cursor: pointer;
+            transition: background 0.3s, transform 0.2s; text-decoration: none;
+        }
+        .btn-primary:hover { background: var(--accent-light); transform: translateY(-2px); }
+        .btn-secondary {
+            display: inline-block; margin-left: 16px; color: var(--text-muted); font-weight: 500;
+            font-size: 0.95rem; padding: 16px 24px; border: 1px solid var(--border); border-radius: 8px;
+            transition: border-color 0.3s;
+        }
+        .btn-secondary:hover { border-color: var(--accent); color: var(--text); }
+
+        /* ── Footer ── */
+        footer {
+            border-top: 1px solid var(--border); padding: 48px 24px; text-align: center;
+        }
+        .footer-brand { font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; }
+        .footer-brand span { color: var(--accent); }
+        footer p { font-size: 0.82rem; color: var(--text-dim); line-height: 1.8; }
+
+        /* ── Animations ── */
+        .fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+    </style>
+</head>
+<body>
+
+<!-- ════════ HERO ════════ -->
+<section class="hero">
+    <div class="hero-inner">
+        <div class="hero-label">BankSync by Fenix IA</div>
+        <p class="hero-narrative">
+            Son las 9 de la manana. Tu contable abre <em>cuatro pestanas de banco</em>.
+            Descarga un CSV de Bankinter, un Excel de CaixaBank, un PDF de Sabadell
+            y un extracto OFX de BBVA. Luego abre el ERP, y empieza a <em>copiar y pegar</em>
+            movimiento por movimiento. Cruza los dedos para que no haya
+            <strong>duplicados</strong>. Reza para que los formatos no hayan cambiado
+            otra vez. A las 11:30 todavia no ha terminado.
+        </p>
+        <h1>
+            Esto ya no tiene sentido.
+            <span>BankSync lo automatiza todo.</span>
+        </h1>
+    </div>
+</section>
+
+<!-- ════════ PAIN POINTS ════════ -->
+<section class="pain-section">
+    <div class="container fade-in">
+        <h2 class="text-center">El problema que todos conocen<br><span class="muted" style="font-weight:300;font-size:0.7em;">pero nadie resuelve</span></h2>
+        <div class="section-divider"></div>
+        <div class="pain-grid">
+            <div class="pain-card">
+                <span class="pain-icon">&#128229;</span>
+                <h3>Descargas manuales</h3>
+                <p>Cada banco tiene su portal, su formato y su manera de exportar. CSV, Excel, OFX, Norma 43... cada dia, cada cuenta, cada empresa.</p>
+            </div>
+            <div class="pain-card">
+                <span class="pain-icon">&#128260;</span>
+                <h3>Formatos incompatibles</h3>
+                <p>Lo que sale del banco no encaja en el ERP. Hay que transformar, mapear campos, ajustar decimales. Y si el banco cambia el formato, vuelta a empezar.</p>
+            </div>
+            <div class="pain-card">
+                <span class="pain-icon">&#128257;</span>
+                <h3>Duplicados fantasma</h3>
+                <p>Un movimiento que ya estaba, otro que se importo dos veces. Detectarlos cuesta mas que importarlos. Y cuando llegas al cierre mensual... el cuadre no sale.</p>
+            </div>
+            <div class="pain-card">
+                <span class="pain-icon">&#9203;</span>
+                <h3>Horas desperdiciadas</h3>
+                <p>Una persona cualificada dedicando 2-3 horas al dia a trabajo mecanico. Multiplicado por las cuentas, las empresas, los meses. Es un sumidero de talento.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ════════ TRANSITION ════════ -->
+<section class="transition-section fade-in">
+    <p>
+        Ahora imagina que <strong>todo eso desaparece</strong>.<br>
+        Que al abrir el ERP por la manana, los movimientos de <em>todos</em> tus bancos
+        ya estan ahi. Clasificados. Sin duplicados. <strong>Sin tocar nada.</strong>
+    </p>
+</section>
+
+<!-- ════════ ARCHITECTURE ════════ -->
+<section class="arch-section">
+    <div class="container fade-in">
+        <h2>Como funciona</h2>
+        <p class="subtitle" style="margin:0 auto 8px;">Conexion directa, sin intermediarios manuales</p>
+        <div class="arch-diagram">
+            <div class="arch-node">
+                <span class="node-icon">&#127975;</span>
+                <div class="node-label">Tu Banco</div>
+                <div class="node-sub">CaixaBank, BBVA, Santander...</div>
+            </div>
+            <span class="arch-arrow">&#10132;</span>
+            <div class="arch-node">
+                <span class="node-icon">&#128274;</span>
+                <div class="node-label">PSD2</div>
+                <div class="node-sub">Conexion regulada UE</div>
+            </div>
+            <span class="arch-arrow">&#10132;</span>
+            <div class="arch-node highlight">
+                <span class="node-icon">&#9889;</span>
+                <div class="node-label">BankSync</div>
+                <div class="node-sub">Motor de reconciliacion</div>
+            </div>
+            <span class="arch-arrow">&#10132;</span>
+            <div class="arch-node">
+                <span class="node-icon">&#128188;</span>
+                <div class="node-label">Tu ERP</div>
+                <div class="node-sub">Velneo, Holded, N43...</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ════════ FEATURES ════════ -->
+<section>
+    <div class="container fade-in">
+        <h2 class="text-center">Lo que hace BankSync por ti</h2>
+        <div class="section-divider"></div>
+        <div class="features-list">
+            <div class="feature-row">
+                <div class="feature-num">01</div>
+                <div>
+                    <h3>Conexion multi-banco via PSD2</h3>
+                    <p>Conecta todas tus cuentas bancarias espanolas y europeas con un solo consentimiento. Sin credenciales de banca online, sin screen scraping.</p>
+                </div>
+            </div>
+            <div class="feature-row">
+                <div class="feature-num">02</div>
+                <div>
+                    <h3>Sincronizacion automatica diaria</h3>
+                    <p>Los movimientos se recogen automaticamente cada noche. Cuando tu equipo llega por la manana, todo esta actualizado.</p>
+                </div>
+            </div>
+            <div class="feature-row">
+                <div class="feature-num">03</div>
+                <div>
+                    <h3>Deteccion inteligente de duplicados</h3>
+                    <p>Algoritmo de matching que identifica movimientos ya importados, incluso si la referencia bancaria cambia. Cero duplicados, cero huecos.</p>
+                </div>
+            </div>
+            <div class="feature-row">
+                <div class="feature-num">04</div>
+                <div>
+                    <h3>Salida flexible: API o Norma 43</h3>
+                    <p>Exporta directamente a tu ERP via API (Velneo, Holded) o genera ficheros Norma 43 listos para importar en cualquier software contable.</p>
+                </div>
+            </div>
+            <div class="feature-row">
+                <div class="feature-num">05</div>
+                <div>
+                    <h3>Multi-empresa desde un panel</h3>
+                    <p>Gestiona las cuentas de todas tus sociedades en un unico dashboard. Ideal para asesorias y grupos empresariales.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ════════ STATS ════════ -->
+<section class="stats-section">
+    <div class="container fade-in">
+        <h2 class="text-center">Resultados reales</h2>
+        <div class="section-divider"></div>
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-number" data-target="93">0</div>
+                <div class="stat-label">% menos tiempo en conciliacion</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" data-target="2400">0</div>
+                <div class="stat-label">movimientos/dia sincronizados</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" data-target="0">0</div>
+                <div class="stat-label">duplicados en los ultimos 6 meses</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" data-target="12">0</div>
+                <div class="stat-label">bancos conectados</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ════════ TESTIMONIALS ════════ -->
+<section>
+    <div class="container fade-in">
+        <h2 class="text-center">Lo que dicen nuestros clientes</h2>
+        <div class="section-divider"></div>
+        <div class="testimonials-grid">
+            <div class="testimonial">
+                <blockquote>
+                    Llevabamos anos descargando extractos a mano de 6 bancos distintos para 14 sociedades.
+                    Con BankSync, lo que antes ocupaba media jornada ahora lo tenemos resuelto antes de
+                    llegar a la oficina. No exagero.
+                </blockquote>
+                <div class="author">Marta Ruiz</div>
+                <div class="role">Directora, Asesoria Ruiz & Asociados (Valencia)</div>
+            </div>
+            <div class="testimonial">
+                <blockquote>
+                    Lo que mas me convencio fue la deteccion de duplicados. Teniamos un problema cronico
+                    con las domiciliaciones de Sabadell que se importaban dos veces. Desde que usamos
+                    BankSync, ni un solo duplicado en seis meses.
+                </blockquote>
+                <div class="author">Javier Torregrosa</div>
+                <div class="role">CFO, Grupo Levantina Tecnica (Alicante)</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ════════ CTA ════════ -->
+<section class="cta-section">
+    <div class="container fade-in">
+        <h2>Deja de perder mananas enteras<br><span class="accent">con las descargas del banco</span></h2>
+        <p>Configura BankSync en una tarde. Los movimientos fluyen desde el dia siguiente.</p>
+        <div>
+            <a href="mailto:hola@fenixia.tech?subject=Demo%20BankSync" class="btn-primary">Solicitar demo</a>
+            <a href="#como-funciona" class="btn-secondary">Ver como funciona</a>
+        </div>
+    </div>
+</section>
+
+<!-- ════════ FOOTER ════════ -->
+<footer>
+    <div class="container">
+        <div class="footer-brand"><span>Bank</span>Sync <span style="color:var(--text-dim);font-weight:300;">by</span> Fenix IA</div>
+        <p>
+            FENIXIA SOLUTIONS S.L. &middot; CIF B44846517<br>
+            <a href="mailto:hola@fenixia.tech">hola@fenixia.tech</a><br><br>
+            &copy; 2026 Fenix IA Solutions. Todos los derechos reservados.
+        </p>
+    </div>
+</footer>
+
+<script>
+// ── Fade-in on scroll ──
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+}, { threshold: 0.15 });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// ── Animated counters ──
+function animateCounter(el, target, duration) {
+    const start = performance.now();
+    const suffix = target === 0 ? '' : (target >= 100 ? '+' : '%');
+    const update = (now) => {
+        const progress = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        el.textContent = Math.round(target * eased).toLocaleString('es-ES') + (progress >= 1 ? suffix : '');
+        if (progress < 1) requestAnimationFrame(update);
+    };
+    requestAnimationFrame(update);
+}
+
+const counterObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+        if (e.isIntersecting) {
+            const target = parseInt(e.target.dataset.target, 10);
+            animateCounter(e.target, target, 1800);
+            counterObserver.unobserve(e.target);
+        }
+    });
+}, { threshold: 0.5 });
+document.querySelectorAll('.stat-number').forEach(el => counterObserver.observe(el));
+</script>
+
+</body>
+</html>

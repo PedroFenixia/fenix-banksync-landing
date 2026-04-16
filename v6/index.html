@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BankSync para Asesorías | Fenix IA Solutions</title>
+    <meta name="description" content="Automatiza la descarga de extractos bancarios de todas tus empresas cliente. Multi-banco, multi-empresa, exportación Norma 43.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --blue: #2563eb;
+            --blue-dark: #1d4ed8;
+            --blue-light: #dbeafe;
+            --blue-50: #eff6ff;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--gray-800);
+            background: #ffffff;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* ── NAV ── */
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--gray-200);
+            z-index: 100;
+            padding: 16px 0;
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--gray-900);
+        }
+
+        .nav-brand svg {
+            width: 32px;
+            height: 32px;
+        }
+
+        .nav-brand span {
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+
+        .nav-brand small {
+            font-weight: 400;
+            font-size: 0.75rem;
+            color: var(--gray-500);
+            display: block;
+        }
+
+        .nav-cta {
+            background: var(--blue);
+            color: #fff;
+            padding: 10px 22px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.875rem;
+            transition: background 0.2s;
+        }
+
+        .nav-cta:hover {
+            background: var(--blue-dark);
+        }
+
+        /* ── HERO ── */
+        .hero {
+            padding: 80px 0 64px;
+            text-align: center;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: var(--blue-light);
+            color: var(--blue);
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 6px 16px;
+            border-radius: 20px;
+            margin-bottom: 24px;
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 800;
+            line-height: 1.15;
+            color: var(--gray-900);
+            max-width: 780px;
+            margin: 0 auto 20px;
+        }
+
+        .hero h1 em {
+            font-style: normal;
+            color: var(--blue);
+        }
+
+        .hero p {
+            font-size: 1.15rem;
+            color: var(--gray-600);
+            max-width: 600px;
+            margin: 0 auto 36px;
+        }
+
+        .hero-cta {
+            display: inline-block;
+            background: var(--blue);
+            color: #fff;
+            padding: 16px 36px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.05rem;
+            transition: background 0.2s, transform 0.15s;
+        }
+
+        .hero-cta:hover {
+            background: var(--blue-dark);
+            transform: translateY(-1px);
+        }
+
+        .hero-sub {
+            font-size: 0.8rem;
+            color: var(--gray-400);
+            margin-top: 12px;
+        }
+
+        /* ── PROBLEM ── */
+        .problem {
+            background: var(--gray-50);
+            padding: 64px 0;
+        }
+
+        .section-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--blue);
+            margin-bottom: 12px;
+        }
+
+        .problem h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 32px;
+            max-width: 620px;
+        }
+
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
+        }
+
+        .problem-card {
+            background: #fff;
+            border: 1px solid var(--gray-200);
+            border-radius: 12px;
+            padding: 28px;
+        }
+
+        .problem-card .icon {
+            width: 44px;
+            height: 44px;
+            background: #fef2f2;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+            font-size: 1.25rem;
+        }
+
+        .problem-card h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--gray-900);
+        }
+
+        .problem-card p {
+            font-size: 0.9rem;
+            color: var(--gray-600);
+        }
+
+        /* ── SOLUTION ── */
+        .solution {
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .solution h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 12px;
+        }
+
+        .solution > .container > p {
+            font-size: 1.05rem;
+            color: var(--gray-600);
+            max-width: 560px;
+            margin: 0 auto 48px;
+        }
+
+        /* ── FEATURES ── */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 28px;
+            text-align: left;
+        }
+
+        .feature-card {
+            background: var(--blue-50);
+            border-radius: 14px;
+            padding: 32px 28px;
+            transition: transform 0.2s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .feature-card .icon {
+            width: 48px;
+            height: 48px;
+            background: var(--blue);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 18px;
+            color: #fff;
+            font-size: 1.3rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 8px;
+        }
+
+        .feature-card p {
+            font-size: 0.9rem;
+            color: var(--gray-600);
+            line-height: 1.55;
+        }
+
+        /* ── ROI ── */
+        .roi {
+            background: var(--gray-900);
+            color: #fff;
+            padding: 72px 0;
+        }
+
+        .roi .section-label {
+            color: var(--blue-light);
+        }
+
+        .roi h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 40px;
+        }
+
+        .roi-calc {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 40px;
+            max-width: 700px;
+        }
+
+        .roi-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            font-size: 0.95rem;
+        }
+
+        .roi-row:last-child {
+            border-bottom: none;
+        }
+
+        .roi-row .label {
+            color: rgba(255,255,255,0.7);
+        }
+
+        .roi-row .value {
+            font-weight: 700;
+            font-size: 1.05rem;
+        }
+
+        .roi-total {
+            margin-top: 24px;
+            background: var(--blue);
+            border-radius: 12px;
+            padding: 24px 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .roi-total .label {
+            font-weight: 600;
+            font-size: 1.05rem;
+        }
+
+        .roi-total .value {
+            font-size: 1.75rem;
+            font-weight: 800;
+        }
+
+        /* ── TESTIMONIAL ── */
+        .testimonial {
+            padding: 72px 0;
+            background: var(--gray-50);
+        }
+
+        .testimonial-card {
+            max-width: 680px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .testimonial-card .quote {
+            font-size: 1.2rem;
+            font-style: italic;
+            color: var(--gray-700);
+            line-height: 1.7;
+            margin-bottom: 28px;
+            position: relative;
+        }
+
+        .testimonial-card .quote::before {
+            content: "\201C";
+            font-size: 4rem;
+            color: var(--blue);
+            position: absolute;
+            top: -20px;
+            left: -10px;
+            line-height: 1;
+            opacity: 0.3;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+        }
+
+        .testimonial-avatar {
+            width: 48px;
+            height: 48px;
+            background: var(--blue-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--blue);
+            font-size: 1rem;
+        }
+
+        .testimonial-author .name {
+            font-weight: 600;
+            color: var(--gray-900);
+        }
+
+        .testimonial-author .role {
+            font-size: 0.85rem;
+            color: var(--gray-500);
+        }
+
+        /* ── TRUST ── */
+        .trust {
+            padding: 56px 0;
+            text-align: center;
+        }
+
+        .trust h2 {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 32px;
+        }
+
+        .trust-badges {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .badge .icon {
+            width: 56px;
+            height: 56px;
+            border: 2px solid var(--gray-200);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+        }
+
+        .badge span {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--gray-700);
+        }
+
+        /* ── FINAL CTA ── */
+        .final-cta {
+            padding: 80px 0;
+            text-align: center;
+            background: linear-gradient(180deg, #fff 0%, var(--blue-50) 100%);
+        }
+
+        .final-cta h2 {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--gray-900);
+            margin-bottom: 16px;
+        }
+
+        .final-cta p {
+            font-size: 1.05rem;
+            color: var(--gray-600);
+            max-width: 500px;
+            margin: 0 auto 32px;
+        }
+
+        .final-cta a {
+            display: inline-block;
+            background: var(--blue);
+            color: #fff;
+            padding: 16px 40px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.05rem;
+            transition: background 0.2s, transform 0.15s;
+        }
+
+        .final-cta a:hover {
+            background: var(--blue-dark);
+            transform: translateY(-1px);
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            background: var(--gray-900);
+            color: rgba(255,255,255,0.5);
+            padding: 40px 0;
+            text-align: center;
+            font-size: 0.8rem;
+            line-height: 1.8;
+        }
+
+        footer a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: #fff;
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 768px) {
+            .hero {
+                padding: 56px 0 48px;
+            }
+
+            .problem, .solution, .roi, .testimonial, .trust, .final-cta {
+                padding: 48px 0;
+            }
+
+            .roi-calc {
+                padding: 24px;
+            }
+
+            .roi-row {
+                font-size: 0.85rem;
+            }
+
+            .roi-total .value {
+                font-size: 1.35rem;
+            }
+
+            .trust-badges {
+                gap: 24px;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAV -->
+    <nav>
+        <div class="container">
+            <a href="#" class="nav-brand">
+                <svg viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#2563eb"/><path d="M8 22V10l8 6-8 6z" fill="#fff"/><path d="M16 22V10l8 6-8 6z" fill="#fff" opacity="0.5"/></svg>
+                <div>
+                    <span>BankSync</span>
+                    <small>by Fenix IA Solutions</small>
+                </div>
+            </a>
+            <a href="#demo" class="nav-cta">Solicitar demo</a>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-badge">Pensado para asesorias fiscales y contables</div>
+            <h1>Tu asesoria gestiona 50 empresas. <em>¿Cuantas horas pierdes descargando extractos?</em></h1>
+            <p>BankSync conecta todos los bancos de todos tus clientes en un solo panel. Descarga automatica, conciliacion lista y exportacion Norma 43. Sin errores, sin esperas.</p>
+            <a href="#demo" class="hero-cta">Solicitar demo para asesorias</a>
+            <p class="hero-sub">Setup en 48h &middot; Sin permanencia &middot; PSD2 regulado</p>
+        </div>
+    </section>
+
+    <!-- PROBLEM -->
+    <section class="problem">
+        <div class="container">
+            <p class="section-label">El problema</p>
+            <h2>Gestionar extractos de 30 empresas con 2 bancos cada una es una pesadilla operativa</h2>
+            <div class="problem-grid">
+                <div class="problem-card">
+                    <div class="icon">&#9200;</div>
+                    <h3>Horas perdidas cada mes</h3>
+                    <p>Entrar en cada banca online, descargar movimientos, renombrar archivos, importar... uno por uno. Cada mes.</p>
+                </div>
+                <div class="problem-card">
+                    <div class="icon">&#9888;&#65039;</div>
+                    <h3>Errores manuales</h3>
+                    <p>Copiar datos entre plataformas genera errores que no se detectan hasta el cierre fiscal. Y entonces ya es tarde.</p>
+                </div>
+                <div class="problem-card">
+                    <div class="icon">&#128274;</div>
+                    <h3>Credenciales dispersas</h3>
+                    <p>Gestionar usuarios y passwords de decenas de entidades bancarias. Compartidos por email o WhatsApp.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOLUTION + FEATURES -->
+    <section class="solution">
+        <div class="container">
+            <p class="section-label">La solucion</p>
+            <h2>Multiplica tu capacidad sin contratar mas personal</h2>
+            <p>BankSync automatiza la parte mas tediosa de tu dia a dia: la recopilacion de datos bancarios de tus clientes.</p>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="icon">
+                        <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0H5m14 0h2M5 21H3m4-10h2m4 0h2m-8 4h2m4 0h2"/></svg>
+                    </div>
+                    <h3>Multi-empresa</h3>
+                    <p>Agrega todas tus empresas cliente en un unico panel. Da de alta nuevas sociedades en segundos.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">
+                        <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+                    </div>
+                    <h3>Multi-banco</h3>
+                    <p>Conecta Santander, BBVA, CaixaBank, Sabadell, Bankinter, ING y 40+ entidades via PSD2.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">
+                        <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                    </div>
+                    <h3>Exportacion Norma 43</h3>
+                    <p>Genera ficheros Norma 43 listos para importar en tu software contable: A3, Sage, ContaPlus, DELSOL...</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">
+                        <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+                    </div>
+                    <h3>Panel centralizado</h3>
+                    <p>Un dashboard para ver el estado de todas las conexiones, ultimas sincronizaciones y alertas por empresa.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ROI CALCULATOR -->
+    <section class="roi">
+        <div class="container">
+            <p class="section-label">Retorno de inversion</p>
+            <h2>Los numeros hablan solos</h2>
+            <div class="roi-calc">
+                <div class="roi-row">
+                    <span class="label">Empresas gestionadas</span>
+                    <span class="value">30</span>
+                </div>
+                <div class="roi-row">
+                    <span class="label">Bancos por empresa (media)</span>
+                    <span class="value">2</span>
+                </div>
+                <div class="roi-row">
+                    <span class="label">Tiempo manual por banco/mes</span>
+                    <span class="value">15 min</span>
+                </div>
+                <div class="roi-row">
+                    <span class="label">Total operaciones manuales/mes</span>
+                    <span class="value">60</span>
+                </div>
+                <div class="roi-total">
+                    <span class="label">Horas ahorradas al mes</span>
+                    <span class="value">15 h/mes</span>
+                </div>
+            </div>
+            <p style="margin-top: 20px; color: rgba(255,255,255,0.5); font-size: 0.85rem;">30 empresas &times; 2 bancos &times; 15 min = 900 min = 15 horas cada mes dedicadas solo a descargar extractos.</p>
+        </div>
+    </section>
+
+    <!-- TESTIMONIAL -->
+    <section class="testimonial">
+        <div class="container">
+            <div class="testimonial-card">
+                <p class="quote">Gestionamos 42 sociedades y teniamos a una persona dedicada casi en exclusiva a descargar extractos. Con BankSync, esa persona ahora hace conciliacion real y aporta valor. Nos ha cambiado el flujo de trabajo.</p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar">MG</div>
+                    <div>
+                        <div class="name">Marta Garcia Lopez</div>
+                        <div class="role">Socia directora &mdash; Asesoria Garcia &amp; Asociados, Valencia</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TRUST -->
+    <section class="trust">
+        <div class="container">
+            <h2>Seguridad y cumplimiento normativo</h2>
+            <div class="trust-badges">
+                <div class="badge">
+                    <div class="icon">
+                        <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#2563eb" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    </div>
+                    <span>PSD2 Compliant</span>
+                </div>
+                <div class="badge">
+                    <div class="icon">
+                        <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#2563eb" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+                    </div>
+                    <span>RGPD</span>
+                </div>
+                <div class="badge">
+                    <div class="icon">
+                        <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#2563eb" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22,4 12,14.01 9,11.01"/></svg>
+                    </div>
+                    <span>Enable Banking Certified</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <section class="final-cta" id="demo">
+        <div class="container">
+            <h2>Tu asesoria merece trabajar mejor</h2>
+            <p>Agenda una demo personalizada de 20 minutos. Te mostramos como conectar tus primeras empresas en menos de una hora.</p>
+            <a href="mailto:hola@fenixia.tech?subject=Demo%20BankSync%20Asesor%C3%ADas">Solicitar demo para asesorias</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <p><strong style="color:rgba(255,255,255,0.8);">BankSync</strong> es un producto de <a href="https://fenixia.tech">Fenix IA Solutions</a></p>
+            <p>Fenixia Solutions S.L. &middot; CIF B44846517 &middot; <a href="mailto:hola@fenixia.tech">hola@fenixia.tech</a></p>
+            <p style="margin-top: 8px;">&copy; 2026 Fenixia Solutions S.L. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

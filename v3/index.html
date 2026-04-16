@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BankSync - Conciliacion bancaria automatica | Fenix IA Solutions</title>
+  <meta name="description" content="Elimina la conciliacion bancaria manual. Conecta tus bancos y ERPs en segundos. Empieza gratis.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #09090b;
+      --bg-card: #18181b;
+      --bg-card-hover: #1f1f23;
+      --border: #27272a;
+      --border-accent: #10b981;
+      --text: #fafafa;
+      --text-muted: #a1a1aa;
+      --text-dim: #71717a;
+      --accent: #10b981;
+      --accent-dark: #059669;
+      --accent-glow: rgba(16, 185, 129, 0.15);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 50;
+      background: rgba(9,9,11,0.8);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    nav .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+
+    .logo {
+      font-weight: 700;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo span { color: var(--accent); }
+
+    .nav-links { display: flex; gap: 32px; align-items: center; }
+    .nav-links a { font-size: 0.875rem; color: var(--text-muted); transition: color 0.2s; }
+    .nav-links a:hover { color: var(--text); }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 24px;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+    .btn-primary:hover { background: var(--accent-dark); transform: translateY(-1px); }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover { border-color: var(--text-dim); }
+
+    .btn-lg { padding: 14px 32px; font-size: 1rem; border-radius: 10px; }
+
+    /* ── Hero ── */
+    .hero {
+      padding: 160px 0 100px;
+      text-align: center;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 16px;
+      border-radius: 100px;
+      border: 1px solid var(--border);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 32px;
+    }
+
+    .hero-badge .dot {
+      width: 6px; height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      max-width: 720px;
+      margin: 0 auto 24px;
+    }
+
+    .hero h1 em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--accent), #34d399);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      max-width: 520px;
+      margin: 0 auto 40px;
+    }
+
+    .hero-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+    /* ── Stats ── */
+    .stats {
+      padding: 80px 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 48px;
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 3rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--accent);
+    }
+
+    .stat-label {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* ── Pricing ── */
+    .pricing {
+      padding: 100px 0;
+    }
+
+    .section-label {
+      text-align: center;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 2.25rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+    }
+
+    .section-subtitle {
+      text-align: center;
+      color: var(--text-muted);
+      max-width: 480px;
+      margin: 0 auto 60px;
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      align-items: start;
+    }
+
+    .pricing-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 36px 32px;
+      transition: border-color 0.2s;
+    }
+
+    .pricing-card:hover { border-color: var(--text-dim); }
+
+    .pricing-card.featured {
+      border-color: var(--accent);
+      position: relative;
+      box-shadow: 0 0 60px var(--accent-glow);
+    }
+
+    .pricing-card.featured::before {
+      content: 'Popular';
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 4px 14px;
+      border-radius: 100px;
+    }
+
+    .plan-name {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .plan-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+      min-height: 40px;
+    }
+
+    .plan-price {
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+      margin-bottom: 8px;
+    }
+
+    .plan-price .amount {
+      font-size: 3rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+
+    .plan-price .period {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .plan-price .custom {
+      font-size: 2rem;
+      font-weight: 700;
+    }
+
+    .plan-includes {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      margin-bottom: 28px;
+    }
+
+    .plan-btn {
+      width: 100%;
+      margin-bottom: 28px;
+    }
+
+    .plan-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .plan-features li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.875rem;
+      color: var(--text-muted);
+    }
+
+    .plan-features li::before {
+      content: '';
+      flex-shrink: 0;
+      width: 18px;
+      height: 18px;
+      margin-top: 2px;
+      background: var(--accent);
+      mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='currentColor'%3E%3Cpath fill-rule='evenodd' d='M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z' clip-rule='evenodd'/%3E%3C/svg%3E") center / contain no-repeat;
+    }
+
+    /* ── Comparison Table ── */
+    .comparison {
+      padding: 0 0 100px;
+    }
+
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.875rem;
+    }
+
+    .comparison-table thead th {
+      text-align: center;
+      padding: 16px 12px;
+      font-weight: 600;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .comparison-table thead th:first-child {
+      text-align: left;
+    }
+
+    .comparison-table tbody td {
+      padding: 14px 12px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-muted);
+    }
+
+    .comparison-table tbody td:first-child {
+      text-align: left;
+      color: var(--text);
+    }
+
+    .comparison-table .check {
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    .comparison-table .dash {
+      color: var(--text-dim);
+    }
+
+    .comparison-table .group-label td {
+      padding-top: 28px;
+      font-weight: 600;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* ── CTA ── */
+    .cta-section {
+      padding: 100px 0;
+      text-align: center;
+      border-top: 1px solid var(--border);
+    }
+
+    .cta-section h2 {
+      font-size: 2.25rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+
+    .cta-section p {
+      color: var(--text-muted);
+      max-width: 440px;
+      margin: 0 auto 36px;
+    }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 48px 0;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+
+    .footer-brand p {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      margin-top: 8px;
+      max-width: 280px;
+      line-height: 1.5;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--text-muted); }
+
+    .footer-bottom {
+      margin-top: 32px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: 0.75rem;
+      color: var(--text-dim);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+
+      .pricing-grid {
+        grid-template-columns: 1fr;
+        max-width: 400px;
+        margin: 0 auto;
+      }
+
+      .comparison-table { font-size: 0.8rem; }
+      .comparison-table thead th,
+      .comparison-table tbody td { padding: 10px 6px; }
+
+      .footer-inner { flex-direction: column; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav>
+    <div class="container">
+      <div class="logo">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <rect width="24" height="24" rx="6" fill="#10b981"/>
+          <path d="M7 13l3 3 7-7" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>Bank</span>Sync
+      </div>
+      <div class="nav-links">
+        <a href="#precios">Precios</a>
+        <a href="#comparativa">Comparativa</a>
+        <a href="mailto:hola@fenixia.tech">Contacto</a>
+        <a href="#precios" class="btn btn-primary">Empieza gratis</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-badge">
+        <span class="dot"></span>
+        PSD2 &middot; Multi-banco &middot; Multi-ERP
+      </div>
+      <h1>Elimina la conciliacion bancaria <em>manual</em></h1>
+      <p>Conecta tus bancos y ERPs. BankSync cruza movimientos automaticamente y te devuelve horas cada semana.</p>
+      <div class="hero-actions">
+        <a href="#precios" class="btn btn-primary btn-lg">Empieza gratis</a>
+        <a href="mailto:hola@fenixia.tech" class="btn btn-ghost btn-lg">Habla con ventas</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="stats">
+    <div class="container">
+      <div class="stats-grid">
+        <div>
+          <div class="stat-value">2.500+</div>
+          <div class="stat-label">Bancos compatibles via PSD2</div>
+        </div>
+        <div>
+          <div class="stat-value">&lt;60s</div>
+          <div class="stat-label">Latencia de sincronizacion</div>
+        </div>
+        <div>
+          <div class="stat-value">80%</div>
+          <div class="stat-label">Menos trabajo manual</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section class="pricing" id="precios">
+    <div class="container">
+      <div class="section-label">Precios</div>
+      <h2 class="section-title">Simple y transparente</h2>
+      <p class="section-subtitle">Sin costes ocultos. Empieza gratis y escala cuando lo necesites.</p>
+
+      <div class="pricing-grid">
+        <!-- Starter -->
+        <div class="pricing-card">
+          <div class="plan-name">Starter</div>
+          <div class="plan-desc">Para autonomos y pequenos negocios que empiezan.</div>
+          <div class="plan-price">
+            <span class="amount">0&euro;</span>
+            <span class="period">/mes</span>
+          </div>
+          <div class="plan-includes">1 banco &middot; 1 ERP &middot; 100 movimientos/mes</div>
+          <a href="mailto:hola@fenixia.tech" class="btn btn-ghost plan-btn">Empieza gratis</a>
+          <ul class="plan-features">
+            <li>Conexion PSD2 segura</li>
+            <li>Conciliacion automatica basica</li>
+            <li>Dashboard de estado</li>
+            <li>Exportacion Norma 43</li>
+            <li>Soporte por email</li>
+          </ul>
+        </div>
+
+        <!-- Pro -->
+        <div class="pricing-card featured">
+          <div class="plan-name">Pro</div>
+          <div class="plan-desc">Para empresas que gestionan multiples cuentas y ERPs.</div>
+          <div class="plan-price">
+            <span class="amount">49&euro;</span>
+            <span class="period">/mes</span>
+          </div>
+          <div class="plan-includes">5 bancos &middot; Multi-ERP &middot; Movimientos ilimitados</div>
+          <a href="mailto:hola@fenixia.tech" class="btn btn-primary plan-btn">Empezar con Pro</a>
+          <ul class="plan-features">
+            <li>Todo lo de Starter</li>
+            <li>Hasta 5 conexiones bancarias</li>
+            <li>Multiples ERPs (Velneo, Holded, etc.)</li>
+            <li>Reglas de conciliacion personalizadas</li>
+            <li>API REST completa</li>
+            <li>Alertas y notificaciones</li>
+            <li>Soporte prioritario</li>
+          </ul>
+        </div>
+
+        <!-- Enterprise -->
+        <div class="pricing-card">
+          <div class="plan-name">Enterprise</div>
+          <div class="plan-desc">Para corporaciones con necesidades avanzadas.</div>
+          <div class="plan-price">
+            <span class="custom">A medida</span>
+          </div>
+          <div class="plan-includes">Bancos ilimitados &middot; SLA garantizado</div>
+          <a href="mailto:hola@fenixia.tech" class="btn btn-ghost plan-btn">Contactar ventas</a>
+          <ul class="plan-features">
+            <li>Todo lo de Pro</li>
+            <li>Conexiones bancarias ilimitadas</li>
+            <li>Integracion ERP a medida</li>
+            <li>SSO / SAML</li>
+            <li>SLA 99.9% con penalizaciones</li>
+            <li>Onboarding dedicado</li>
+            <li>Account manager personal</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Comparison Table -->
+  <section class="comparison" id="comparativa">
+    <div class="container">
+      <h2 class="section-title">Comparativa de planes</h2>
+      <p class="section-subtitle" style="margin-bottom:48px;">Todas las funcionalidades, plan por plan.</p>
+
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Starter</th>
+            <th>Pro</th>
+            <th>Enterprise</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="group-label"><td colspan="4">Conexiones</td></tr>
+          <tr>
+            <td>Cuentas bancarias</td>
+            <td>1</td>
+            <td>5</td>
+            <td>Ilimitadas</td>
+          </tr>
+          <tr>
+            <td>Conexiones ERP</td>
+            <td>1</td>
+            <td>Multi</td>
+            <td>Ilimitadas</td>
+          </tr>
+          <tr>
+            <td>Movimientos / mes</td>
+            <td>100</td>
+            <td>Ilimitados</td>
+            <td>Ilimitados</td>
+          </tr>
+
+          <tr class="group-label"><td colspan="4">Conciliacion</td></tr>
+          <tr>
+            <td>Conciliacion automatica</td>
+            <td class="check">&#10003;</td>
+            <td class="check">&#10003;</td>
+            <td class="check">&#10003;</td>
+          </tr>
+          <tr>
+            <td>Reglas personalizadas</td>
+            <td class="dash">&mdash;</td>
+            <td class="check">&#10003;</td>
+            <td class="check">&#10003;</td>
+          </tr>
+          <tr>
+            <td>Conciliacion con IA</td>
+            <td class="dash">&mdash;</td>
+            <td class="dash">&mdash;</td>
+            <td class="check">&#10003;</td>
+          </tr>
+
+          <tr class="group-label"><td colspan="4">Exportacion</td></tr>
+          <tr>
+            <td>Norma 43</td>
+            <td class="check">&#10003;</td>
+            <td class="check">&#10003;</td>
+            <td class="check">&#10003;</td>
+          </tr>
+          <tr>
+            <td>API REST</td>
+            <td class="dash">&mdash;</td>
+            <td class="check">&#10003;</td>
+            <td class="check">&#10003;</td>
+          </tr>
+          <tr>
+            <td>Webhooks</td>
+            <td class="dash">&mdash;</td>
+            <td class="check">&#10003;</td>
+            <td class="check">&#10003;</td>
+          </tr>
+
+          <tr class="group-label"><td colspan="4">Soporte</td></tr>
+          <tr>
+            <td>Email</td>
+            <td class="check">&#10003;</td>
+            <td class="check">&#10003;</td>
+            <td class="check">&#10003;</td>
+          </tr>
+          <tr>
+            <td>Prioritario</td>
+            <td class="dash">&mdash;</td>
+            <td class="check">&#10003;</td>
+            <td class="check">&#10003;</td>
+          </tr>
+          <tr>
+            <td>Account manager</td>
+            <td class="dash">&mdash;</td>
+            <td class="dash">&mdash;</td>
+            <td class="check">&#10003;</td>
+          </tr>
+          <tr>
+            <td>SLA garantizado</td>
+            <td class="dash">&mdash;</td>
+            <td class="dash">&mdash;</td>
+            <td class="check">&#10003;</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="container">
+      <h2>Empieza a conciliar hoy</h2>
+      <p>Configura tu primera conexion bancaria en menos de 5 minutos. Sin tarjeta de credito.</p>
+      <a href="mailto:hola@fenixia.tech" class="btn btn-primary btn-lg">Empieza gratis</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <div class="logo">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <rect width="24" height="24" rx="6" fill="#10b981"/>
+              <path d="M7 13l3 3 7-7" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>Bank</span>Sync
+          </div>
+          <p>Conciliacion bancaria automatica para empresas modernas. Un producto de Fenix IA Solutions.</p>
+        </div>
+        <div class="footer-links">
+          <a href="https://fenixia.tech/aviso-legal">Aviso legal</a>
+          <a href="https://fenixia.tech/privacidad">Privacidad</a>
+          <a href="https://fenixia.tech/terminos">Terminos</a>
+          <a href="https://fenixia.tech/cookies">Cookies</a>
+          <a href="mailto:hola@fenixia.tech">hola@fenixia.tech</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 FENIXIA SOLUTIONS S.L. &middot; CIF B44846517</span>
+        <span>Hecho con cuidado en Espana</span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

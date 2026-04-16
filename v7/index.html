@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BankSync - Fenix IA Solutions</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --violet: #8b5cf6;
+      --cyan: #06b6d4;
+      --glass-bg: rgba(255, 255, 255, 0.05);
+      --glass-border: rgba(255, 255, 255, 0.12);
+      --glass-border-hover: rgba(255, 255, 255, 0.22);
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #0a0a1a;
+      color: #e2e8f0;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    /* --- Animated gradient mesh background --- */
+    .bg-mesh {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(ellipse 80% 60% at 20% 30%, rgba(139, 92, 246, 0.25), transparent),
+        radial-gradient(ellipse 60% 80% at 80% 70%, rgba(6, 182, 212, 0.2), transparent),
+        radial-gradient(ellipse 70% 50% at 50% 50%, rgba(99, 60, 180, 0.15), transparent);
+      animation: meshShift 12s ease-in-out infinite alternate;
+    }
+
+    @keyframes meshShift {
+      0% {
+        background:
+          radial-gradient(ellipse 80% 60% at 20% 30%, rgba(139, 92, 246, 0.25), transparent),
+          radial-gradient(ellipse 60% 80% at 80% 70%, rgba(6, 182, 212, 0.2), transparent),
+          radial-gradient(ellipse 70% 50% at 50% 50%, rgba(99, 60, 180, 0.15), transparent);
+      }
+      33% {
+        background:
+          radial-gradient(ellipse 70% 70% at 60% 20%, rgba(6, 182, 212, 0.3), transparent),
+          radial-gradient(ellipse 80% 60% at 30% 80%, rgba(139, 92, 246, 0.2), transparent),
+          radial-gradient(ellipse 50% 60% at 70% 50%, rgba(56, 189, 248, 0.15), transparent);
+      }
+      66% {
+        background:
+          radial-gradient(ellipse 60% 80% at 40% 60%, rgba(99, 60, 180, 0.25), transparent),
+          radial-gradient(ellipse 80% 50% at 70% 20%, rgba(6, 182, 212, 0.25), transparent),
+          radial-gradient(ellipse 70% 70% at 20% 80%, rgba(139, 92, 246, 0.15), transparent);
+      }
+      100% {
+        background:
+          radial-gradient(ellipse 90% 50% at 80% 40%, rgba(139, 92, 246, 0.2), transparent),
+          radial-gradient(ellipse 50% 90% at 20% 60%, rgba(6, 182, 212, 0.25), transparent),
+          radial-gradient(ellipse 60% 60% at 50% 30%, rgba(56, 189, 248, 0.12), transparent);
+      }
+    }
+
+    .container { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
+
+    /* --- Nav --- */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 18px 0;
+      backdrop-filter: blur(20px);
+      background: rgba(10, 10, 26, 0.7);
+      border-bottom: 1px solid var(--glass-border);
+    }
+
+    nav .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-weight: 800;
+      font-size: 1.4rem;
+      background: linear-gradient(135deg, var(--violet), var(--cyan));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a {
+      color: #94a3b8;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+    .nav-links a:hover { color: #e2e8f0; }
+
+    /* --- Glass card base --- */
+    .glass {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .glass:hover {
+      border-color: var(--glass-border-hover);
+      transform: translateY(-4px);
+    }
+
+    /* --- Gradient text utility --- */
+    .grad-text {
+      background: linear-gradient(135deg, var(--violet), var(--cyan));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* --- Hero --- */
+    .hero {
+      padding: 180px 0 100px;
+      text-align: center;
+      position: relative;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      padding: 6px 18px;
+      border-radius: 100px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      border: 1px solid var(--glass-border);
+      background: var(--glass-bg);
+      backdrop-filter: blur(10px);
+      margin-bottom: 28px;
+      color: #a5b4fc;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.6rem, 6vw, 4.5rem);
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 24px;
+    }
+
+    .hero p {
+      font-size: 1.15rem;
+      color: #94a3b8;
+      max-width: 600px;
+      margin: 0 auto 48px;
+    }
+
+    .hero-cta {
+      display: inline-block;
+      padding: 16px 40px;
+      border-radius: 14px;
+      font-weight: 700;
+      font-size: 1rem;
+      color: #fff;
+      background: linear-gradient(135deg, var(--violet), var(--cyan));
+      text-decoration: none;
+      transition: opacity 0.3s, transform 0.3s;
+    }
+    .hero-cta:hover { opacity: 0.9; transform: scale(1.03); }
+
+    /* --- Floating bank logos --- */
+    .bank-logos {
+      display: flex;
+      justify-content: center;
+      gap: 48px;
+      margin-top: 64px;
+      flex-wrap: wrap;
+    }
+
+    .bank-logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100px;
+      height: 100px;
+      border-radius: 20px;
+      font-weight: 700;
+      font-size: 0.7rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.7);
+      border: 1px solid var(--glass-border);
+      background: var(--glass-bg);
+      backdrop-filter: blur(12px);
+    }
+
+    .bank-logo:nth-child(1) { animation: floatA 6s ease-in-out infinite; }
+    .bank-logo:nth-child(2) { animation: floatB 7s ease-in-out infinite; }
+    .bank-logo:nth-child(3) { animation: floatC 5s ease-in-out infinite; }
+    .bank-logo:nth-child(4) { animation: floatD 8s ease-in-out infinite; }
+
+    @keyframes floatA { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-18px); } }
+    @keyframes floatB { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-14px) rotate(2deg); } }
+    @keyframes floatC { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-20px) rotate(-1deg); } }
+    @keyframes floatD { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+
+    /* --- Section shared --- */
+    section { padding: 100px 0; }
+    .section-title {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+    .section-sub {
+      text-align: center;
+      color: #94a3b8;
+      max-width: 560px;
+      margin: 0 auto 56px;
+      font-size: 1.05rem;
+    }
+
+    /* --- Features --- */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .feature-card {
+      padding: 36px 28px;
+      text-align: center;
+    }
+
+    .feature-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(139,92,246,0.2), rgba(6,182,212,0.2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      font-size: 1.5rem;
+    }
+
+    .feature-card h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .feature-card p {
+      font-size: 0.9rem;
+      color: #94a3b8;
+      line-height: 1.6;
+    }
+
+    /* --- Architecture --- */
+    .arch-pipeline {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      flex-wrap: wrap;
+    }
+
+    .arch-node {
+      padding: 32px 36px;
+      text-align: center;
+      min-width: 200px;
+    }
+
+    .arch-node h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 6px; }
+    .arch-node p { font-size: 0.85rem; color: #94a3b8; }
+
+    .arch-arrow {
+      font-size: 2rem;
+      color: var(--violet);
+      padding: 0 12px;
+      animation: pulseArrow 2s ease-in-out infinite;
+    }
+
+    @keyframes pulseArrow {
+      0%,100% { opacity: 0.4; }
+      50% { opacity: 1; }
+    }
+
+    /* --- Stats --- */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      text-align: center;
+    }
+
+    .stat-card { padding: 40px 20px; }
+
+    .stat-number {
+      font-size: clamp(2.2rem, 4vw, 3.2rem);
+      font-weight: 900;
+      margin-bottom: 8px;
+    }
+
+    .stat-label {
+      font-size: 0.9rem;
+      color: #94a3b8;
+      font-weight: 500;
+    }
+
+    /* --- CTA --- */
+    .cta-section { text-align: center; padding: 80px 0 100px; }
+
+    .cta-box {
+      padding: 64px 48px;
+      position: relative;
+      border: 2px solid transparent;
+      background-image: linear-gradient(rgba(10,10,26,0.9), rgba(10,10,26,0.9)), linear-gradient(135deg, var(--violet), var(--cyan));
+      background-origin: border-box;
+      background-clip: padding-box, border-box;
+      border-radius: 24px;
+    }
+
+    .cta-box h2 {
+      font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+
+    .cta-box p {
+      color: #94a3b8;
+      margin-bottom: 36px;
+      font-size: 1.05rem;
+    }
+
+    .cta-btn {
+      display: inline-block;
+      padding: 16px 44px;
+      border-radius: 14px;
+      font-weight: 700;
+      font-size: 1rem;
+      color: #fff;
+      background: linear-gradient(135deg, var(--violet), var(--cyan));
+      text-decoration: none;
+      transition: opacity 0.3s, transform 0.3s;
+    }
+    .cta-btn:hover { opacity: 0.9; transform: scale(1.03); }
+
+    /* --- Footer --- */
+    footer {
+      border-top: 1px solid var(--glass-border);
+      padding: 40px 0;
+      text-align: center;
+      font-size: 0.85rem;
+      color: #64748b;
+    }
+    footer a { color: #94a3b8; text-decoration: none; }
+    footer a:hover { color: #e2e8f0; }
+    footer .footer-brand { font-weight: 700; font-size: 1rem; margin-bottom: 8px; }
+
+    /* --- Responsive --- */
+    @media (max-width: 900px) {
+      .features-grid { grid-template-columns: repeat(2, 1fr); }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .nav-links { display: none; }
+    }
+
+    @media (max-width: 600px) {
+      .features-grid { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .arch-pipeline { flex-direction: column; }
+      .arch-arrow { transform: rotate(90deg); }
+      .bank-logos { gap: 24px; }
+      .bank-logo { width: 80px; height: 80px; font-size: 0.6rem; }
+      .cta-box { padding: 40px 24px; }
+      .hero { padding: 140px 0 60px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-mesh"></div>
+
+  <!-- Nav -->
+  <nav>
+    <div class="container">
+      <div class="logo">BankSync</div>
+      <ul class="nav-links">
+        <li><a href="#features">Funcionalidades</a></li>
+        <li><a href="#architecture">Arquitectura</a></li>
+        <li><a href="#stats">Cifras</a></li>
+        <li><a href="#contact">Contacto</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-badge">Agregador Bancario PSD2</div>
+      <h1><span class="grad-text">El futuro de la<br>banca conectada</span></h1>
+      <p>Conecta todas tus cuentas bancarias con tu ERP en tiempo real. Automatiza conciliaciones, genera Norma 43 y elimina el trabajo manual.</p>
+      <a href="#contact" class="hero-cta">Solicitar demo</a>
+
+      <div class="bank-logos">
+        <div class="bank-logo">BBVA</div>
+        <div class="bank-logo">Santander</div>
+        <div class="bank-logo">CaixaBank</div>
+        <div class="bank-logo">Sabadell</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section id="features">
+    <div class="container">
+      <h2 class="section-title"><span class="grad-text">Funcionalidades</span></h2>
+      <p class="section-sub">Todo lo que necesitas para automatizar tu flujo bancario, desde la conexion PSD2 hasta la salida a tu ERP.</p>
+
+      <div class="features-grid">
+        <div class="glass feature-card">
+          <div class="feature-icon">🔐</div>
+          <h3>Conexion PSD2</h3>
+          <p>Acceso seguro a cuentas bancarias via Enable Banking. Sin compartir credenciales, cumpliendo la normativa europea.</p>
+        </div>
+
+        <div class="glass feature-card">
+          <div class="feature-icon">🔄</div>
+          <h3>Multi-ERP</h3>
+          <p>Salida nativa hacia Velneo, Holded y otros ERPs. Adaptadores personalizables para cualquier sistema de gestion.</p>
+        </div>
+
+        <div class="glass feature-card">
+          <div class="feature-icon">📄</div>
+          <h3>Norma 43</h3>
+          <p>Generacion automatica de ficheros Norma 43 (AEB) compatibles con cualquier software contable del mercado.</p>
+        </div>
+
+        <div class="glass feature-card">
+          <div class="feature-icon">⚡</div>
+          <h3>API REST</h3>
+          <p>API documentada con OpenAPI para integrar BankSync en cualquier flujo de trabajo o aplicacion de terceros.</p>
+        </div>
+
+        <div class="glass feature-card">
+          <div class="feature-icon">🧹</div>
+          <h3>Deduplicacion</h3>
+          <p>Algoritmo inteligente que detecta y elimina movimientos duplicados automaticamente, sin intervencion manual.</p>
+        </div>
+
+        <div class="glass feature-card">
+          <div class="feature-icon">📋</div>
+          <h3>Audit Trail</h3>
+          <p>Registro completo de cada sincronizacion, movimiento importado y accion del sistema. Trazabilidad total.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Architecture -->
+  <section id="architecture">
+    <div class="container">
+      <h2 class="section-title"><span class="grad-text">Arquitectura</span></h2>
+      <p class="section-sub">Un pipeline limpio que conecta tu banco con tu ERP en segundos.</p>
+
+      <div class="arch-pipeline">
+        <div class="glass arch-node">
+          <h3>🏦 Banco</h3>
+          <p>BBVA, Santander, CaixaBank, Sabadell y 50+ entidades via PSD2</p>
+        </div>
+        <div class="arch-arrow">→</div>
+        <div class="glass arch-node">
+          <h3>⚙️ BankSync Core</h3>
+          <p>Normalizacion, deduplicacion, reglas de negocio y almacenamiento</p>
+        </div>
+        <div class="arch-arrow">→</div>
+        <div class="glass arch-node">
+          <h3>📊 ERP</h3>
+          <p>Velneo, Holded, Norma 43 o API REST para tu sistema</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section id="stats">
+    <div class="container">
+      <h2 class="section-title"><span class="grad-text">Cifras que importan</span></h2>
+      <p class="section-sub">Resultados reales de empresas que ya usan BankSync.</p>
+
+      <div class="stats-grid">
+        <div class="glass stat-card">
+          <div class="stat-number grad-text">50+</div>
+          <div class="stat-label">Bancos conectados</div>
+        </div>
+        <div class="glass stat-card">
+          <div class="stat-number grad-text">98%</div>
+          <div class="stat-label">Precision en conciliacion</div>
+        </div>
+        <div class="glass stat-card">
+          <div class="stat-number grad-text">15min</div>
+          <div class="stat-label">Setup inicial</div>
+        </div>
+        <div class="glass stat-card">
+          <div class="stat-number grad-text">0€</div>
+          <div class="stat-label">Coste por transaccion</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section" id="contact">
+    <div class="container">
+      <div class="cta-box">
+        <h2><span class="grad-text">Automatiza tu banca hoy</span></h2>
+        <p>Conecta tus cuentas, elimina el trabajo manual y ten el control total de tus movimientos bancarios.</p>
+        <a href="mailto:hola@fenixia.tech" class="cta-btn">Contactar con nosotros</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-brand grad-text">BankSync by Fenix IA</div>
+      <p>Fenixia Solutions S.L. &middot; CIF B44846517 &middot; <a href="mailto:hola@fenixia.tech">hola@fenixia.tech</a></p>
+      <p style="margin-top: 8px;">&copy; 2026 Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

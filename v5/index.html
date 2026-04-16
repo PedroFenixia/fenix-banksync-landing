@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BankSync - Fenix IA Solutions</title>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #000;
+    color: #fff;
+    font-family: system-ui, -apple-system, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: #3b82f6; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  .container {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* Nav */
+  nav {
+    padding: 24px 0;
+    border-bottom: 1px solid #1a1a1a;
+  }
+  nav .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .logo {
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: #fff;
+  }
+  .logo span { color: #666; font-weight: 400; }
+  nav a { font-size: 14px; color: #666; }
+  nav a:hover { color: #fff; text-decoration: none; }
+
+  /* Hero */
+  .hero {
+    padding: 140px 0 120px;
+    text-align: center;
+  }
+  .hero h1 {
+    font-size: clamp(32px, 5vw, 48px);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin-bottom: 40px;
+  }
+  .btn {
+    display: inline-block;
+    padding: 12px 32px;
+    background: #fff;
+    color: #000;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 6px;
+    transition: opacity 0.15s;
+  }
+  .btn:hover { opacity: 0.85; text-decoration: none; }
+
+  /* Features */
+  .features {
+    padding: 80px 0;
+    border-top: 1px solid #1a1a1a;
+  }
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 48px;
+  }
+  .feature-icon {
+    font-size: 24px;
+    margin-bottom: 16px;
+    display: block;
+  }
+  .feature h3 {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+  }
+  .feature p {
+    font-size: 14px;
+    color: #888;
+    line-height: 1.5;
+  }
+
+  /* Flow */
+  .flow {
+    padding: 80px 0;
+    border-top: 1px solid #1a1a1a;
+    text-align: center;
+  }
+  .flow-diagram {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    margin-top: 48px;
+    flex-wrap: wrap;
+  }
+  .flow-node {
+    font-size: 14px;
+    font-weight: 500;
+    padding: 12px 24px;
+    border: 1px solid #333;
+    border-radius: 6px;
+  }
+  .flow-node.active {
+    border-color: #fff;
+    background: #111;
+  }
+  .flow-arrow {
+    color: #444;
+    font-size: 18px;
+  }
+  .flow-label {
+    font-size: 12px;
+    color: #555;
+    margin-top: 24px;
+  }
+
+  /* CTA */
+  .cta {
+    padding: 120px 0;
+    text-align: center;
+    border-top: 1px solid #1a1a1a;
+  }
+  .cta p {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 32px;
+  }
+
+  /* Footer */
+  footer {
+    padding: 32px 0;
+    border-top: 1px solid #1a1a1a;
+    text-align: center;
+    font-size: 12px;
+    color: #444;
+  }
+
+  @media (max-width: 600px) {
+    .hero { padding: 80px 0 64px; }
+    .features-grid { grid-template-columns: 1fr; gap: 40px; }
+    .features, .flow { padding: 56px 0; }
+    .cta { padding: 80px 0; }
+    .flow-diagram { gap: 12px; }
+    .flow-node { padding: 10px 16px; font-size: 13px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="container">
+    <div class="logo">BankSync <span>by Fenix IA</span></div>
+    <a href="mailto:hola@fenixia.tech">Contacto</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="container">
+    <h1>Sincronizacion bancaria<br>automatica.</h1>
+    <a href="mailto:hola@fenixia.tech" class="btn">Solicitar acceso</a>
+  </div>
+</section>
+
+<section class="features">
+  <div class="container">
+    <div class="features-grid">
+      <div class="feature">
+        <span class="feature-icon">&bull;</span>
+        <h3>PSD2 nativo</h3>
+        <p>Conexion directa con tu banco mediante APIs reguladas. Sin credenciales, sin scraping.</p>
+      </div>
+      <div class="feature">
+        <span class="feature-icon">&bull;</span>
+        <h3>Multi-ERP</h3>
+        <p>Envia movimientos a Velneo, Holded o cualquier sistema via API estandarizada.</p>
+      </div>
+      <div class="feature">
+        <span class="feature-icon">&bull;</span>
+        <h3>Norma 43</h3>
+        <p>Genera ficheros Norma 43 compatibles con tu software de contabilidad actual.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="flow">
+  <div class="container">
+    <div class="flow-diagram">
+      <div class="flow-node">Banco</div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-node active">BankSync</div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-node">ERP</div>
+    </div>
+    <p class="flow-label">PSD2 &middot; Enable Banking &middot; API REST</p>
+  </div>
+</section>
+
+<section class="cta">
+  <div class="container">
+    <p>Automatiza la conciliacion bancaria de tu empresa.</p>
+    <a href="mailto:hola@fenixia.tech" class="btn">Habla con nosotros</a>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    &copy; 2024-2026 Fenixia Solutions S.L. CIF B44846517
+  </div>
+</footer>
+
+</body>
+</html>
